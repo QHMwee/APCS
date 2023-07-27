@@ -1,0 +1,70 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n;
+    cin >> n;
+
+    int x[n], y[n];
+    for (int i = 0; i < n; i++) {
+        cin >> x[i] >> y[i];
+    }
+
+    int left_turns = 0, right_turns = 0, u_turns = 0;
+    int direction = 4; // 1北 2南 3西 4東
+
+    for (int i = 0; i < n - 1; i++) {
+        int del_x = x[i + 1] - x[i];
+        int del_y = y[i + 1] - y[i];
+
+        if (direction == 1) {
+            if (del_x > 0) {
+                direction = 4; // 右轉向東
+                right_turns++;
+            } else if (del_x < 0) {
+                direction = 3; // 左轉向西
+                left_turns++;
+            } else if (del_y < 0) {
+                direction = 2; // 迴轉向南
+                u_turns++;
+            }
+        } else if (direction == 2) {
+            if (del_x > 0) {
+                direction = 4; // 右轉向東
+                right_turns++;
+            } else if (del_x < 0) {
+                direction = 3; // 左轉向西
+                left_turns++;
+            } else if (del_y > 0) {
+                direction = 1; // 迴轉向北
+                u_turns++;
+            }
+        } else if (direction == 3) {
+            if (del_x > 0) {
+                direction = 4; // 右轉向東
+                right_turns++;
+            } else if (del_y > 0) {
+                direction = 1; // 左轉向北
+                left_turns++;
+            } else if (del_y < 0) {
+                direction = 2; // 迴轉向南
+                u_turns++;
+            }
+        } else if (direction == 4) {
+            if (del_x < 0) {
+                direction = 3; // 右轉向西
+                right_turns++;
+            } else if (del_y > 0) {
+                direction = 1; // 左轉向北
+                left_turns++;
+            } else if (del_y < 0) {
+                direction = 2; // 迴轉向南
+                u_turns++;
+            }
+        }
+    }
+
+    cout << left_turns << " " << right_turns << " " << u_turns;
+    return 0;
+}
+
