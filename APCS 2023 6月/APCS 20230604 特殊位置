@@ -1,0 +1,78 @@
+#include <iostream>
+using namespace std;
+
+// 檢查特定點是否是特殊位置的函式
+bool check(int a[50][50], int y, int x, int m, int n)
+{
+    // 定義左上角的座標與右下角的座標
+    int startY = y - a[y][x];
+    int startX = x - a[y][x];
+    int endY = y + a[y][x];
+    int endX = x + a[y][x];
+
+    // 進行正規化，避免超出陣列範圍
+    if (startY < 0) {
+        startY = 0;
+    }
+    if (startX < 0) {
+        startX = 0;
+    }
+    if (endY >= m) {
+        endY = m - 1;
+    }
+    if (endX >= n) {
+        endX = n - 1;
+    }
+
+    int sum = 0;
+
+    // 遍歷矩形範圍內的每個點
+    for (int i = startY; i <= endY; i++) {
+        for (int j = startX; j <= endX; j++) {
+            // 檢查每個點的座標到當前點的曼哈頓距離是否小於等於 a[y][x]
+            if (abs(i - y) + abs(j - x) <= a[y][x]) {
+                // 如果滿足條件，則將這些點的數值加總
+                sum += a[i][j];
+            }
+        }
+    }
+
+    // 檢查 sum 的個位數是否等於 a[y][x]
+    if (sum % 10 == a[y][x]) {
+        return true; // 是特殊位置，返回 true
+    }
+    return false; // 不是特殊位置，返回 false
+}
+
+int main()
+{
+    int a[50][50];
+    int m, n;
+    cin >> m >> n;
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            cin >> a[i][j]; // 輸入二維矩陣的數值
+        }
+    }
+
+    int ans[2500][2]; // 用於存儲特殊位置的座標
+    int ansCount = 0; // 計算特殊位置的數量
+
+    // 遍歷矩陣中的每個點，檢查是否是特殊位置
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            if (check(a, i, j, m, n) == true) {
+                // 如果是特殊位置，則將座標存入 ans 陣列中，並增加 ansCount 的值
+                ans[ansCount][0] = i;
+                ans[ansCount][1] = j;
+                ansCount++;
+            }
+        }
+    }
+
+    // 輸出特殊位置的數量及其座標
+    cout << ansCount << endl;
+    for (int i = 0; i < ansCount; i++) {
+        cout << ans[i][0] << " " << ans[i][1] << endl;
+    }
+}
