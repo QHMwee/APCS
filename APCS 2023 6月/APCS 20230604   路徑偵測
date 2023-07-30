@@ -7,6 +7,7 @@
 
 
 
+
 #include <iostream>
 using namespace std;
 
@@ -28,12 +29,13 @@ int main() {
         int ex_y = y[i + 1] - y[i];
         if (way == 1) {
             if (ex_x > 0) { // 北
-                left = left + 1;
-                way = 3;
-            }
-            else if (ex_x < 0) {
                 right = right + 1;
                 way = 4;
+                
+            }
+            else if (ex_x < 0) {
+                left = left + 1;
+                way = 3;
             }
             else if (ex_y < 0) {
                 turn = turn + 1;
@@ -41,11 +43,11 @@ int main() {
             }
         } else if (way == 2) { // 南
             if (ex_x > 0) {
-                right = right + 1;
+            	left = left + 1;
                 way = 4;
             }
             else if (ex_x < 0) {
-                left = left + 1;
+                right = right + 1;
                 way = 3;
             }
             else if (ex_y > 0) {
