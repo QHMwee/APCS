@@ -1,70 +1,88 @@
+
+解題思路(1)
+暴力解決十六種算法，在動的同時同時要記住轉換面對的方向
+請注意，有些動了也不會換方向
+
+
+
+
+
 #include <iostream>
 using namespace std;
 
 int main() {
     int n;
     cin >> n;
-
     int x[n], y[n];
+
     for (int i = 0; i < n; i++) {
         cin >> x[i] >> y[i];
     }
 
-    int left_turns = 0, right_turns = 0, u_turns = 0;
-    int direction = 4; // 1北 2南 3西 4東
+    int left = 0, right = 0, turn = 0;
+
+    int way = 4; // 1 北 2 南 3 西 4 東
 
     for (int i = 0; i < n - 1; i++) {
-        int del_x = x[i + 1] - x[i];
-        int del_y = y[i + 1] - y[i];
-
-        if (direction == 1) {
-            if (del_x > 0) {
-                direction = 4; // 右轉向東
-                right_turns++;
-            } else if (del_x < 0) {
-                direction = 3; // 左轉向西
-                left_turns++;
-            } else if (del_y < 0) {
-                direction = 2; // 迴轉向南
-                u_turns++;
+        int ex_x = x[i + 1] - x[i];
+        int ex_y = y[i + 1] - y[i];
+        if (way == 1) {
+            if (ex_x > 0) { // 北
+                left = left + 1;
+                way = 3;
             }
-        } else if (direction == 2) {
-            if (del_x > 0) {
-                direction = 4; // 右轉向東
-                right_turns++;
-            } else if (del_x < 0) {
-                direction = 3; // 左轉向西
-                left_turns++;
-            } else if (del_y > 0) {
-                direction = 1; // 迴轉向北
-                u_turns++;
+            else if (ex_x < 0) {
+                right = right + 1;
+                way = 4;
             }
-        } else if (direction == 3) {
-            if (del_x > 0) {
-                direction = 4; // 右轉向東
-                right_turns++;
-            } else if (del_y > 0) {
-                direction = 1; // 左轉向北
-                left_turns++;
-            } else if (del_y < 0) {
-                direction = 2; // 迴轉向南
-                u_turns++;
+            else if (ex_y < 0) {
+                turn = turn + 1;
+                way = 2;
             }
-        } else if (direction == 4) {
-            if (del_x < 0) {
-                direction = 3; // 右轉向西
-                right_turns++;
-            } else if (del_y > 0) {
-                direction = 1; // 左轉向北
-                left_turns++;
-            } else if (del_y < 0) {
-                direction = 2; // 迴轉向南
-                u_turns++;
+        } else if (way == 2) { // 南
+            if (ex_x > 0) {
+                right = right + 1;
+                way = 4;
+            }
+            else if (ex_x < 0) {
+                left = left + 1;
+                way = 3;
+            }
+            else if (ex_y > 0) {
+                turn = turn + 1;
+                way = 1;
+            }
+        } else if (way == 3) { // 西
+            if (ex_y > 0) {
+                right = right + 1;
+                way = 1;
+            }
+            else if (ex_y < 0) {
+                left = left + 1;
+                way = 2;
+            }
+            else if (ex_x > 0) {
+                turn = turn + 1;
+                way = 4;
+            }
+        } else if (way == 4) { // 東
+            if (ex_y > 0) {
+                left = left + 1;
+                way = 1;
+            }
+            else if (ex_y < 0) {
+                right = right + 1;
+                way = 2;
+            }
+            else if (ex_x < 0) { // 修改此行，將 ex_y < 0 改成 ex_x < 0
+                turn = turn + 1;
+                way = 3;
             }
         }
     }
 
-    cout << left_turns << " " << right_turns << " " << u_turns;
+    // 輸出結果
+    cout << left << " " << right << " " << turn;
+
     return 0;
 }
-
