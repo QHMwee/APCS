@@ -74,7 +74,7 @@ int main() {
                 right = right + 1;
                 way = 2;
             }
-            else if (ex_x < 0) { // 修改此行，將 ex_y < 0 改成 ex_x < 0
+            else if (ex_x < 0) {
                 turn = turn + 1;
                 way = 3;
             }
